@@ -13,9 +13,10 @@ function useApiRequest(apiRequest, ...args) {
         setData(data);
         setIsLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
         setIsLoading(false);
-        setIsError(true);
+        //setIsError(true);
+        //console.error(err)
       });
   }, [...args]);
   return { data, isLoading, isError };

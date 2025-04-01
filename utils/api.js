@@ -3,8 +3,14 @@ import axios from "axios";
 function getAllArticles(page) {
   let url = `https://nc-news-5066.onrender.com/api/articles?limit=10&p=${page}`;
   return axios.get(url).then(({ data }) => {
-    //console.log(data);
     return { articles: data.articles, totalCount: data.total_count };
+  });
+}
+
+function getArticleById(article_id) {
+  let url = `https://nc-news-5066.onrender.com/api/articles/${article_id}`;
+  return axios.get(url).then(({ data }) => {
+    return data.article;
   });
 }
 
@@ -15,4 +21,11 @@ function getAllTopics() {
   });
 }
 
-export { getAllArticles, getAllTopics };
+function getCommentsByArticleId(article_id, page) {
+  let url = `https://nc-news-5066.onrender.com/api/articles/${article_id}/comments?limit=10&p=${page}`;
+  return axios.get(url).then(({ data }) => {
+    return data.comments;
+  });
+}
+
+export { getAllArticles, getArticleById, getAllTopics, getCommentsByArticleId };
