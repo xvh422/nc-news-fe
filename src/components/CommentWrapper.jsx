@@ -3,16 +3,13 @@ import { getCommentsByArticleId } from "../../utils/api.js";
 import useApiRequest from "../hooks/useApiRequest.jsx";
 import CommentCard from "./CommentCard.jsx";
 
-function CommentWrapper({ article_id }) {
-  const [currentPage, setCurrentPage] = useState(1);
+function CommentWrapper({ article, currentPage }) {
 
   const {
     data: comments = [],
     isLoading,
     isError,
-  } = useApiRequest(getCommentsByArticleId, article_id, currentPage);
-
-  console.log(comments);
+  } = useApiRequest(getCommentsByArticleId, article.article_id, currentPage);
 
   return (
     <>
@@ -23,7 +20,7 @@ function CommentWrapper({ article_id }) {
             return <CommentCard comment={comment} />;
           })}
         </ul>
-      ) : null}
+      ) : <h2>Loading...</h2>}
     </>
   );
 }
