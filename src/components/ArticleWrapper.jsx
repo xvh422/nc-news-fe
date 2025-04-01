@@ -49,11 +49,11 @@ function ArticleWrapper() {
         </select>
         <label htmlFor="articles-order-selector">Order by</label>
         <select name="order-by" id="articles-order-selector">
-          <option key="most-popular" value="Most popular">
-            Most popular
-          </option>
           <option key="newest" value="Newest">
             Newest
+          </option>
+          <option key="most-popular" value="Most popular">
+            Most popular
           </option>
           <option key="oldest" value="Oldest">
             Oldest
@@ -82,13 +82,16 @@ function ArticleWrapper() {
           </button>
         </span>
       </nav>
-      {isLoading ? <h2>Loading...</h2> : null}
       {isError ? <h2>Something went wrong</h2> : null}
-      <ul>
-        {articles.map((article) => {
-          return <ArticleCard article={article} />;
-        })}
-      </ul>
+      {isLoading ? (
+        <h2>Loading...</h2>
+      ) : (
+        <ul>
+          {articles.map((article) => {
+            return <ArticleCard article={article} />;
+          })}
+        </ul>
+      )}
       <footer id="articles-footer">
         <span className="page-select">
           <button

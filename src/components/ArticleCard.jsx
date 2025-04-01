@@ -2,6 +2,7 @@ import {
   capitaliseFirstLetter,
   convertTimestampToDate,
 } from "../../utils/utils";
+import { Link } from "react-router";
 
 function ArticleCard({ article }) {
   return (
@@ -13,23 +14,27 @@ function ArticleCard({ article }) {
         </p>
         <p className="article-topic">{capitaliseFirstLetter(article.topic)}</p>
       </div>
-      <h2>{article.title}</h2>
-      <img
-        src={article.article_img_url}
-        alt={article.title}
-        className="article-image"
-      />
+      <Link to={`/articles/${article.article_id}`}>
+        <h2>{article.title}</h2>
+        <img
+          src={article.article_img_url}
+          alt={article.title}
+          className="article-image"
+        />
+      </Link>
       <div className="article-footer">
         <span>
           <p>Votes: {article.votes}</p>
           <button>Like</button>
           <button>Dislike</button>
         </span>
-        <span>
-          <p className="article-comment-count">
-            Comments: {article.comment_count}
-          </p>
-        </span>
+        <Link to={`/articles/${article.article_id}`}>
+          <span>
+            <p className="article-comment-count">
+              Comments: {article.comment_count}
+            </p>
+          </span>
+        </Link>
       </div>
     </li>
   );
