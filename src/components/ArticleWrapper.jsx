@@ -1,40 +1,32 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ArticleCard from "./ArticleCard.jsx";
 import { getAllArticles, getAllTopics } from "../../utils/api.js";
 import { capitaliseFirstLetter } from "../../utils/utils.js";
+import useApiRequest from "../hooks/useApiRequest.jsx";
 
 function ArticleWrapper() {
-  const [allArticles, setAllArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [allTopics, setAllTopics] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    setIsError(false);
-    setIsLoading(true);
-    getAllArticles(currentPage)
-      .then(({ data }) => {
-        setAllArticles(data.articles);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-        setIsError(true);
-      });
-  }, [currentPage]);
+  function handleChangePage(event) {
+    switch (event.target.value) {
+      case "next":
+        setCurrentPage(currentPage + 1);
+        break;
+      case "previous":
+        setCurrentPage(currentPage - 1);
+        break;
+      default:
+        break;
+    }
+  }
 
-  useEffect(() => {
-    setIsError(false);
-    getAllTopics()
-      .then(({ data }) => {
-        setAllTopics(data.topics);
-      })
-      .catch(() => {
-        setIsError(true);
-      });
-  }, []);
+  const {
+    data: { articles = [], totalCount = 0 },
+    isLoading,
+    isError,
+  } = useApiRequest(getAllArticles, currentPage);
+
+  const { data: allTopics } = useApiRequest(getAllTopics);
 
   return (
     <>
@@ -70,14 +62,54 @@ function ArticleWrapper() {
             Least popular
           </option>
         </select>
+        <span className="page-select">
+          <button
+            onClick={currentPage > 1 ? handleChangePage : null}
+            value={"previous"}
+          >
+            Previous Page
+          </button>
+          <p>
+            Page: {currentPage}/{Math.ceil(totalCount / 10)}
+          </p>
+          <button
+            onClick={
+              currentPage < Math.ceil(totalCount / 10) ? handleChangePage : null
+            }
+            value={"next"}
+          >
+            Next Page
+          </button>
+        </span>
       </nav>
       {isLoading ? <h2>Loading...</h2> : null}
       {isError ? <h2>Something went wrong</h2> : null}
       <ul>
-        {allArticles.map((article) => {
+        {articles.map((article) => {
           return <ArticleCard article={article} />;
         })}
       </ul>
+      <footer id="articles-footer">
+        <span className="page-select">
+          <button
+            onClick={currentPage > 1 ? handleChangePage : null}
+            value={"previous"}
+          >
+            Previous Page
+          </button>
+          <p>
+            Page: {currentPage}/{Math.ceil(totalCount / 10)}
+          </p>
+          <button
+            onClick={
+              currentPage < Math.ceil(totalCount / 10) ? handleChangePage : null
+            }
+            value={"next"}
+          >
+            Next Page
+          </button>
+        </span>
+      </footer>
     </>
   );
 }

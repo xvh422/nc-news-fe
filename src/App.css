@@ -43,14 +43,36 @@
 
 ul {
   list-style: none;
+  padding: 0;
 }
 
 h2 {
   margin: 10px;
 }
 
-#articles-topic-selector, #articles-order-selector {
+#articles-navbar, #articles-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#articles-navbar label {
+  margin: 20px 10px;
+}
+
+#articles-navbar p, #articles-footer p {
+  margin: 20px 10px;
+}
+
+#articles-topic-selector,
+#articles-order-selector {
+  padding: 10px;
   margin: 10px;
+}
+
+.page-select {
+  display: flex;
+  flex-direction: row;
 }
 
 .article-card {
