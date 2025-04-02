@@ -204,3 +204,18 @@ h2 {
 .comment-footer p {
   margin-right: 10px;
 }
+
+#new-comment-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#new-comment-form textarea {
+  padding: 20px;
+  margin: 10px 50px;
+}
+
+#new-comment-form button {
+  padding: 20px;
+  margin: 10px auto;
+}
