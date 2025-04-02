@@ -1,9 +1,33 @@
-import {
-  capitaliseFirstLetter,
-  convertTimestampToDate,
-} from "../../utils/utils";
+import { useState } from "react";
+import { convertTimestampToDate } from "../../utils/utils";
+import { patchCommentVotes } from "../../utils/api";
 
 function CommentCard({ comment }) {
+  const [votes, setVotes] = useState(comment.votes);
+  const [isVoteError, setIsVoteError] = useState(false);
+
+  function handleLike() {
+    setVotes(votes + 1);
+    setIsVoteError(false);
+    patchCommentVotes(comment.comment_id).catch((err) => {
+      setIsVoteError(true);
+      setVotes((currentVotes) => {
+        return currentVotes - 1;
+      });
+    });
+  }
+
+  function handleDislike() {
+    setVotes(votes - 1);
+    setIsVoteError(false);
+    patchCommentVotes(comment.comment_id, false).catch((err) => {
+      setIsVoteError(true);
+      setVotes((currentVotes) => {
+        return currentVotes + 1;
+      });
+    });
+  }
+
   return (
     <li key={comment.comment_id} className="comment-card">
       <div className="comment-header">
@@ -15,9 +39,10 @@ function CommentCard({ comment }) {
       <p className="comment-body">{comment.body}</p>
       <div className="comment-footer">
         <span>
-          <p>Votes: {comment.votes}</p>
-          <button>Like</button>
-          <button>Dislike</button>
+          <p>Votes: {votes}</p>
+          <button onClick={handleLike}>Like</button>
+          <button onClick={handleDislike}>Dislike</button>
+          {isVoteError ? <p>Vote failed. Please try again.</p> : null}
         </span>
       </div>
     </li>

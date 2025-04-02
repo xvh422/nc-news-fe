@@ -43,6 +43,14 @@ function getCommentsByArticleId(article_id, page) {
   });
 }
 
+function patchCommentVotes(comment_id, increase = true) {
+  let url = `https://nc-news-5066.onrender.com/api/comments/${comment_id}`;
+  const requestBody = { inc_votes: increase ? 1 : -1 };
+  return axios.patch(url, requestBody).then(({ data }) => {
+    return data.comment;
+  });
+}
+
 export {
   getAllTopics,
   getUserByUsername,
@@ -50,4 +58,5 @@ export {
   getArticleById,
   patchArticleVotes,
   getCommentsByArticleId,
+  patchCommentVotes,
 };

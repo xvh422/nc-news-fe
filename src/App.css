@@ -124,6 +124,10 @@ h2 {
   width: 90%;
 }
 
+.article-body {
+  margin: 10px;
+}
+
 .article-footer {
   display: flex;
   flex-direction: row;

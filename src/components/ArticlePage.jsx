@@ -79,7 +79,7 @@ function ArticlePage() {
             alt={article.title}
             className="article-image"
           />
-          <p>{article.body}</p>
+          <p className="article-body">{article.body}</p>
           <div className="article-footer">
             <span className="article-votes">
               <p>Votes: {votes}</p>
