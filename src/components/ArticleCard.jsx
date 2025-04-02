@@ -9,6 +9,7 @@ import { patchArticleVotes } from "../../utils/api";
 function ArticleCard({ article }) {
   const [votes, setVotes] = useState(article.votes);
   const [isError, setIsError] = useState(false);
+
   function handleLike() {
     setVotes(votes + 1);
     setIsError(false);
@@ -53,9 +54,7 @@ function ArticleCard({ article }) {
           <p>Votes: {votes}</p>
           <button onClick={handleLike}>Like</button>
           <button onClick={handleDislike}>Dislike</button>
-        {isError ? (
-            <p>Vote failed. Please try again.</p>
-        ) : null}
+          {isError ? <p>Vote failed. Please try again.</p> : null}
         </span>
         <span className="article-comment-count">
           <Link to={`/articles/${article.article_id}`}>

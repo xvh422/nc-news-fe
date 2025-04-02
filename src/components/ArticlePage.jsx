@@ -1,22 +1,50 @@
 import { useParams } from "react-router";
 import CommentWrapper from "./CommentWrapper.jsx";
 import useApiRequest from "../hooks/useApiRequest.jsx";
-import { getArticleById } from "../../utils/api.js";
+import { getArticleById, patchArticleVotes } from "../../utils/api.js";
 import {
   capitaliseFirstLetter,
   convertTimestampToDate,
 } from "../../utils/utils.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function ArticlePage() {
   const { article_id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const [votes, setVotes] = useState(0);
+  const [isVoteError, setIsVoteError] = useState(false);
 
   const {
     data: article = {},
     isLoading,
     isError,
   } = useApiRequest(getArticleById, article_id);
+
+  useEffect(() => {
+    setVotes(article.votes);
+  }, [article.votes]);
+
+  function handleLike() {
+    setVotes(votes + 1);
+    setIsVoteError(false);
+    patchArticleVotes(article.article_id).catch((err) => {
+      setIsVoteError(true);
+      setVotes((currentVotes) => {
+        return currentVotes - 1;
+      });
+    });
+  }
+
+  function handleDislike() {
+    setVotes(votes - 1);
+    setIsVoteError(false);
+    patchArticleVotes(article.article_id, false).catch((err) => {
+      setIsVoteError(true);
+      setVotes((currentVotes) => {
+        return currentVotes + 1;
+      });
+    });
+  }
 
   function handleChangePage(event) {
     switch (event.target.value) {
@@ -53,17 +81,18 @@ function ArticlePage() {
           />
           <p>{article.body}</p>
           <div className="article-footer">
-            <span>
-              <p>Votes: {article.votes}</p>
-              <button>Like</button>
-              <button>Dislike</button>
+            <span className="article-votes">
+              <p>Votes: {votes}</p>
+              <button onClick={handleLike}>Like</button>
+              <button onClick={handleDislike}>Dislike</button>
+              {isVoteError ? <p>Vote failed. Please try again.</p> : null}
             </span>
-            <span>
-              <p className="article-comment-count">
+            <span className="article-comment-count">
+              <p>
                 Comments: {article.comment_count}
               </p>
             </span>
-            <span className="page-select">
+            <span className="comments-page-select">
               <button
                 onClick={currentPage > 1 ? handleChangePage : null}
                 value={"previous"}

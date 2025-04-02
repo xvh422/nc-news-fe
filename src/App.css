@@ -159,9 +159,9 @@ h2 {
   margin-left: auto;
 }
 
-#comments-order-selector {
-  padding: 10px;
-  margin: 10px;
+.comments-page-select {
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .comment-card {
