@@ -10,7 +10,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<ArticleWrapper />} />
-        <Route path="/articles/:article_id" element={<ArticlePage />}/>
+        <Route path="/articles/:article_id" element={<ArticlePage />} />
       </Routes>
     </>
   );
