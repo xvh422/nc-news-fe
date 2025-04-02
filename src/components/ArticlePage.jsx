@@ -88,37 +88,37 @@ function ArticlePage() {
               {isVoteError ? <p>Vote failed. Please try again.</p> : null}
             </span>
             <span className="article-comment-count">
-              <p>
-                Comments: {article.comment_count}
-              </p>
+              <p>Comments: {article.comment_count}</p>
             </span>
-            <span className="comments-page-select">
-              <button
-                onClick={currentPage > 1 ? handleChangePage : null}
-                value={"previous"}
-              >
-                Previous Page
-              </button>
-              <p>
-                Page: {currentPage}/{Math.ceil(article.comment_count / 10)}
-              </p>
-              <button
-                onClick={
-                  currentPage < Math.ceil(article.comment_count / 10)
-                    ? handleChangePage
-                    : null
-                }
-                value={"next"}
-              >
-                Next Page
-              </button>
-            </span>
+            {article.comment_count > 0 ? (
+              <span className="comments-page-select">
+                <button
+                  onClick={currentPage > 1 ? handleChangePage : null}
+                  value={"previous"}
+                >
+                  Previous Page
+                </button>
+                <p>
+                  Page: {currentPage}/{Math.ceil(article.comment_count / 10)}
+                </p>
+                <button
+                  onClick={
+                    currentPage < Math.ceil(article.comment_count / 10)
+                      ? handleChangePage
+                      : null
+                  }
+                  value={"next"}
+                >
+                  Next Page
+                </button>
+              </span>
+            ) : null}
           </div>
         </section>
       ) : (
         <h2>Loading...</h2>
       )}
-      <CommentWrapper article={article} currentPage={currentPage} />
+      {article.comment_count > 0 ? <CommentWrapper article={article} currentPage={currentPage} /> : <h2>This article has no comments</h2>}
     </>
   );
 }
