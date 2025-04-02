@@ -1,10 +1,37 @@
+import { useState } from "react";
 import {
   capitaliseFirstLetter,
   convertTimestampToDate,
 } from "../../utils/utils";
 import { Link } from "react-router";
+import { patchArticleVotes } from "../../utils/api";
 
 function ArticleCard({ article }) {
+  const [votes, setVotes] = useState(article.votes);
+  const [isError, setIsError] = useState(false);
+
+  function handleLike() {
+    setVotes(votes + 1);
+    setIsError(false);
+    patchArticleVotes(article.article_id).catch((err) => {
+      setIsError(true);
+      setVotes((currentVotes) => {
+        return currentVotes - 1;
+      });
+    });
+  }
+
+  function handleDislike() {
+    setVotes(votes - 1);
+    setIsError(false);
+    patchArticleVotes(article.article_id, false).catch((err) => {
+      setIsError(true);
+      setVotes((currentVotes) => {
+        return currentVotes + 1;
+      });
+    });
+  }
+
   return (
     <li key={article.article_id} className="article-card">
       <div className="article-header">
@@ -23,18 +50,17 @@ function ArticleCard({ article }) {
         />
       </Link>
       <div className="article-footer">
-        <span>
-          <p>Votes: {article.votes}</p>
-          <button>Like</button>
-          <button>Dislike</button>
+        <span className="article-votes">
+          <p>Votes: {votes}</p>
+          <button onClick={handleLike}>Like</button>
+          <button onClick={handleDislike}>Dislike</button>
+          {isError ? <p>Vote failed. Please try again.</p> : null}
         </span>
-        <Link to={`/articles/${article.article_id}`}>
-          <span>
-            <p className="article-comment-count">
-              Comments: {article.comment_count}
-            </p>
-          </span>
-        </Link>
+        <span className="article-comment-count">
+          <Link to={`/articles/${article.article_id}`}>
+            <p>Comments: {article.comment_count}</p>
+          </Link>
+        </span>
       </div>
     </li>
   );
