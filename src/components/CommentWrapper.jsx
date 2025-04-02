@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { getCommentsByArticleId } from "../../utils/api.js";
 import useApiRequest from "../hooks/useApiRequest.jsx";
 import CommentCard from "./CommentCard.jsx";

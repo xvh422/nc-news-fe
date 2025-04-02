@@ -63,21 +63,6 @@ function ArticlePage() {
                 Comments: {article.comment_count}
               </p>
             </span>
-            <label htmlFor="comments-order-selector">Order by</label>
-            <select name="order-by" id="comments-order-selector">
-              <option key="newest" value="Newest">
-                Newest
-              </option>
-              <option key="most-popular" value="Most popular">
-                Most popular
-              </option>
-              <option key="oldest" value="Oldest">
-                Oldest
-              </option>
-              <option key="least-popular" value="Least popular">
-                Least popular
-              </option>
-            </select>
             <span className="page-select">
               <button
                 onClick={currentPage > 1 ? handleChangePage : null}
