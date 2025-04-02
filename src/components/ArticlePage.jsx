@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import CommentWrapper from "./CommentWrapper.jsx";
+import NewCommentForm from "./NewCommentForm.jsx";
 import useApiRequest from "../hooks/useApiRequest.jsx";
 import { getArticleById, patchArticleVotes } from "../../utils/api.js";
 import {
@@ -13,6 +14,8 @@ function ArticlePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [votes, setVotes] = useState(0);
   const [isVoteError, setIsVoteError] = useState(false);
+  const [newComment, setNewComment] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
 
   const {
     data: article = {},
@@ -22,7 +25,8 @@ function ArticlePage() {
 
   useEffect(() => {
     setVotes(article.votes);
-  }, [article.votes]);
+    setCommentCount(article.comment_count);
+  }, [article.votes, article.comment_count]);
 
   function handleLike() {
     setVotes(votes + 1);
@@ -59,6 +63,10 @@ function ArticlePage() {
     }
   }
 
+  function handleNewCommentClick() {
+    setNewComment(!newComment);
+  }
+
   return (
     <>
       {isError ? <h2>Something Went Wrong</h2> : null}
@@ -88,9 +96,12 @@ function ArticlePage() {
               {isVoteError ? <p>Vote failed. Please try again.</p> : null}
             </span>
             <span className="article-comment-count">
-              <p>Comments: {article.comment_count}</p>
+              <p>Comments: {commentCount}</p>
+              <button onClick={handleNewCommentClick}>
+                {!newComment ? "New Comment" : "Cancel"}
+              </button>
             </span>
-            {article.comment_count > 0 ? (
+            {commentCount > 0 ? (
               <span className="comments-page-select">
                 <button
                   onClick={currentPage > 1 ? handleChangePage : null}
@@ -99,11 +110,11 @@ function ArticlePage() {
                   Previous Page
                 </button>
                 <p>
-                  Page: {currentPage}/{Math.ceil(article.comment_count / 10)}
+                  Page: {currentPage}/{Math.ceil(commentCount / 10)}
                 </p>
                 <button
                   onClick={
-                    currentPage < Math.ceil(article.comment_count / 10)
+                    currentPage < Math.ceil(commentCount / 10)
                       ? handleChangePage
                       : null
                   }
@@ -118,7 +129,12 @@ function ArticlePage() {
       ) : (
         <h2>Loading...</h2>
       )}
-      {article.comment_count > 0 ? <CommentWrapper article={article} currentPage={currentPage} /> : <h2>This article has no comments</h2>}
+      {commentCount > 0 ? null : <h2>This article has no comments</h2>}
+      {!newComment ? (
+        <CommentWrapper article={article} currentPage={currentPage} />
+      ) : (
+        <NewCommentForm article={article} setNewComment={setNewComment} setCommentCount={setCommentCount} />
+      )}
     </>
   );
 }
