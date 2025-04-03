@@ -59,6 +59,11 @@ function postNewComment(article_id, username, body) {
   });
 }
 
+function deleteComment(comment_id) {
+  let url = `https://nc-news-5066.onrender.com/api/comments/${comment_id}`;
+  return axios.delete(url);
+}
+
 export {
   getAllTopics,
   getUserByUsername,
@@ -68,4 +73,5 @@ export {
   getCommentsByArticleId,
   patchCommentVotes,
   postNewComment,
+  deleteComment,
 };

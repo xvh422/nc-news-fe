@@ -205,6 +205,10 @@ h2 {
   margin-right: 10px;
 }
 
+.comment-delete-button {
+  margin-right: 10px;
+}
+
 #new-comment-form {
   display: flex;
   flex-direction: column;
