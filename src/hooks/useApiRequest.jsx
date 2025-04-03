@@ -16,7 +16,7 @@ function useApiRequest(apiRequest, ...args) {
       .catch((err) => {
         setIsLoading(false);
         //setIsError(true);
-        //console.error(err)
+        //console.error(err);
       });
   }, [...args]);
   return { data, isLoading, isError };

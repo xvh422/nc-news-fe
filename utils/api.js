@@ -14,8 +14,11 @@ function getUserByUsername(username) {
   });
 }
 
-function getAllArticles(page) {
+function getAllArticles(page, topic) {
   let url = `https://nc-news-5066.onrender.com/api/articles?limit=10&p=${page}`;
+  if (topic && topic !== "All") {
+    url += `&topic=${topic.toLowerCase()}`;
+  }
   return axios.get(url).then(({ data }) => {
     return { articles: data.articles, totalCount: data.total_count };
   });
