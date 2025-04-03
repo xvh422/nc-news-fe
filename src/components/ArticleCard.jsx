@@ -44,9 +44,11 @@ function ArticleCard({ article, setCurrentTopic, setCurrentPage }) {
         <p className="article-date">
           {convertTimestampToDate(article.created_at)}
         </p>
-        <p className="article-topic" onClick={handleTopicClick}>
-          {capitaliseFirstLetter(article.topic)}
-        </p>
+        <Link>
+          <p className="article-topic" onClick={handleTopicClick}>
+            {capitaliseFirstLetter(article.topic)}
+          </p>
+        </Link>
       </div>
       <Link to={`/articles/${article.article_id}`}>
         <h2>{article.title}</h2>
