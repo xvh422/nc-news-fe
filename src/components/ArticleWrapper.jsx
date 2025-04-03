@@ -7,6 +7,7 @@ import useApiRequest from "../hooks/useApiRequest.jsx";
 function ArticleWrapper() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTopic, setCurrentTopic] = useState("All");
+  const [selectedOrder, setSelectedOrder] = useState("Newest");
 
   function handleChangePage(event) {
     switch (event.target.value) {
@@ -25,17 +26,21 @@ function ArticleWrapper() {
     setCurrentTopic(event.target.value);
   }
 
+  function handleOrderChange(event) {
+    setSelectedOrder(event.target.value);
+  }
+
   const {
     data: { articles = [], totalCount = 0 },
     isLoading,
     isError,
-  } = useApiRequest(getAllArticles, currentPage, currentTopic);
+  } = useApiRequest(getAllArticles, currentPage, currentTopic, selectedOrder);
 
   const { data: allTopics } = useApiRequest(getAllTopics);
 
   return (
     <>
-      <nav id="articles-navbar">
+      <div id="articles-navbar">
         <label htmlFor="articles-topic-selector">Topic</label>
         <select
           name="topics"
@@ -58,18 +63,23 @@ function ArticleWrapper() {
           })}
         </select>
         <label htmlFor="articles-order-selector">Order by</label>
-        <select name="order-by" id="articles-order-selector">
+        <select
+          name="order-by"
+          id="articles-order-selector"
+          onChange={handleOrderChange}
+          value={selectedOrder}
+        >
           <option key="newest" value="Newest">
             Newest
           </option>
-          <option key="most-popular" value="Most popular">
-            Most popular
+          <option key="most-popular" value="Most Popular">
+            Most Popular
           </option>
           <option key="oldest" value="Oldest">
             Oldest
           </option>
-          <option key="least-popular" value="Least popular">
-            Least popular
+          <option key="least-popular" value="Least Popular">
+            Least Popular
           </option>
         </select>
         <span className="page-select">
@@ -91,7 +101,7 @@ function ArticleWrapper() {
             Next Page
           </button>
         </span>
-      </nav>
+      </div>
       {isError ? <h2>Something went wrong</h2> : null}
       {isLoading ? (
         <h2>Loading...</h2>
