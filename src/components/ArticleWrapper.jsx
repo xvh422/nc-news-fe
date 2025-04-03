@@ -6,6 +6,7 @@ import useApiRequest from "../hooks/useApiRequest.jsx";
 
 function ArticleWrapper() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentTopic, setCurrentTopic] = useState("All");
 
   function handleChangePage(event) {
     switch (event.target.value) {
@@ -20,11 +21,15 @@ function ArticleWrapper() {
     }
   }
 
+  function handleTopicChange(event) {
+    setCurrentTopic(event.target.value);
+  }
+
   const {
     data: { articles = [], totalCount = 0 },
     isLoading,
     isError,
-  } = useApiRequest(getAllArticles, currentPage);
+  } = useApiRequest(getAllArticles, currentPage, currentTopic);
 
   const { data: allTopics } = useApiRequest(getAllTopics);
 
@@ -32,7 +37,12 @@ function ArticleWrapper() {
     <>
       <nav id="articles-navbar">
         <label htmlFor="articles-topic-selector">Topic</label>
-        <select name="topics" id="articles-topic-selector">
+        <select
+          name="topics"
+          id="articles-topic-selector"
+          onChange={handleTopicChange}
+          value={capitaliseFirstLetter(currentTopic)}
+        >
           <option key="all" value="All">
             All
           </option>
@@ -88,7 +98,13 @@ function ArticleWrapper() {
       ) : (
         <ul>
           {articles.map((article) => {
-            return <ArticleCard article={article} />;
+            return (
+              <ArticleCard
+                article={article}
+                setCurrentTopic={setCurrentTopic}
+                setCurrentPage={setCurrentPage}
+              />
+            );
           })}
         </ul>
       )}
