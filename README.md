@@ -1,12 +1,27 @@
-# React + Vite
+# NC News
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Deployed Version**
 
-Currently, two official plugins are available:
+The deployed version of this app can be found [here](https://nc-news-joseph-carter.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Summary**
 
-## Expanding the ESLint configuration
+This repository contains the front-end for my application "NC News" in which users can make posts on particular topics, comment on posts, and vote on whether they like or dislike others' posts and comments.
+Below are some instructions on how to run this project on a local device.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Instructions for Setup**
+
+The following commands should be run in the terminal
+
+1. Run: `git clone https://github.com/xvh422/nc-news-fe.git`
+
+2. In the newly created folder, run: `npm install`
+
+3. Run: `npm run dev`
+
+4. Click the link to see the locally hosted version on your device.
+
+**Dependencies**
+
+Node: v23.6.1
+React: v19.0.0
