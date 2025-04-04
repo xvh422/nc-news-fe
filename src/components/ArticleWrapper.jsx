@@ -24,6 +24,7 @@ function ArticleWrapper() {
 
   function handleTopicChange(event) {
     setCurrentTopic(event.target.value);
+    setCurrentPage(1);
   }
 
   function handleOrderChange(event) {
