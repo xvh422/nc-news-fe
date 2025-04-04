@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import "./App.css";
 import Header from "./components/Header.jsx";
 import ArticleWrapper from "./components/ArticleWrapper.jsx";
@@ -9,8 +9,9 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<ArticleWrapper />} />
-        <Route path="/articles/:article_id" element={<ArticlePage />} />
+        <Route exact path="/" element={<ArticleWrapper />} />
+        <Route exact path="/articles/:article_id" element={<ArticlePage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

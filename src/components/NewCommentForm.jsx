@@ -40,6 +40,7 @@ function NewCommentForm({ article, setNewComment, setCommentCount }) {
         id="new-comment-text"
         onChange={handleTextChange}
         value={newCommentText}
+        required
       ></textarea>
       <button type="submit">Submit</button>
       {isFormError ? <p>Comment Submission failed. Please Try again.</p> : null}

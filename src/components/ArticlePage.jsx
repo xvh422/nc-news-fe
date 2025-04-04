@@ -21,7 +21,7 @@ function ArticlePage() {
     data: article = {},
     isLoading,
     isError,
-  } = useApiRequest(getArticleById, article_id);
+  } = useApiRequest(getArticleById, Number(article_id));
 
   useEffect(() => {
     setVotes(article.votes);
@@ -65,6 +65,10 @@ function ArticlePage() {
 
   function handleNewCommentClick() {
     setNewComment(!newComment);
+  }
+
+  if (Array.isArray(article) && !isLoading) {
+    return <h2>Article Not found</h2>;
   }
 
   return (
@@ -129,11 +133,17 @@ function ArticlePage() {
       ) : (
         <h2>Loading...</h2>
       )}
-      {commentCount > 0 ? null : <h2>This article has no comments</h2>}
+      {commentCount === 0 && !isLoading ? (
+        <h2>This article has no comments</h2>
+      ) : null}
       {!newComment ? (
         <CommentWrapper article={article} currentPage={currentPage} />
       ) : (
-        <NewCommentForm article={article} setNewComment={setNewComment} setCommentCount={setCommentCount} />
+        <NewCommentForm
+          article={article}
+          setNewComment={setNewComment}
+          setCommentCount={setCommentCount}
+        />
       )}
     </>
   );
