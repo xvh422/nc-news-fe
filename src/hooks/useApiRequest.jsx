@@ -11,12 +11,13 @@ function useApiRequest(apiRequest, ...args) {
     apiRequest(...args)
       .then((data) => {
         setData(data);
+        setIsError(false);
         setIsLoading(false);
       })
       .catch((err) => {
         setIsLoading(false);
-        //setIsError(true);
-        //console.error(err);
+        setIsError(true);
+        console.error(err);
       });
   }, [...args]);
   return { data, isLoading, isError };

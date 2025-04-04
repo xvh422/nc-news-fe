@@ -21,7 +21,7 @@ function ArticlePage() {
     data: article = {},
     isLoading,
     isError,
-  } = useApiRequest(getArticleById, article_id);
+  } = useApiRequest(getArticleById, Number(article_id));
 
   useEffect(() => {
     setVotes(article.votes);
